@@ -1,2 +1,6 @@
 # SQLite-Python-Interchange
-Mini Project that was challenged to my class. Have two codes, one in the actual machine one in the Virtual Machine Linux. The host machine will always be the client machine connecting to the server that will be the program running on the server, listening for any connection. More information on the README.
+  Mini Project that was challenged to my class. Have two codes, one in the actual machine one in the Virtual Machine Linux. The host machine will always be the client machine connecting to the server that will be the program running on the server, listening for any connection. 
+  The client shall not be able to modify the queries sent to the server as to avoid unwanted actions to the database.
+  SQLite shall be used, the name of the database will not matter for now.
+  If the client types, "Bye" the connection to the server shall be terminated, but the server shall continue listening if possible.
+  If the client types "Goodnight" the connection to the server shall be terminated and the server shall stop listening ending the program.
