@@ -6,6 +6,7 @@ Created on Mon Apr  3 21:28:24 2023
 """
 
 import socket
+import servermain as sm
 
 HOST = "192.168.1.31"  
 PORT = 65432  
@@ -18,12 +19,16 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         print(f"Connected by {addr}")
         while True:
             data = conn.recv(1024)
-            print(f"{data.decode()}")
-            if not data:
+            client_order = data.decode()
+            print(f"{client_order}")
+            if client_order == "0":
                 break
-            str = "I hear you"
+            str = sm.menu(client_order)
             conn.sendall(str.encode())
     
         
+
+
+
 
 
