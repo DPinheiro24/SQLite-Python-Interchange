@@ -43,13 +43,14 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.sendall(escolha.encode())
         elif escolha == "10":
             s.sendall(escolha.encode())
-        
-        if escolha == "0":
+        elif escolha == "0":
             s.sendall(escolha.encode())
             data = s.recv(1024)
             print(f"Received '{data.decode()}'")
             s.close()
             break
+        else:
+            s.sendall(escolha.encode())
         
         data = s.recv(1024)
         print(f"Received '{data.decode()}'")

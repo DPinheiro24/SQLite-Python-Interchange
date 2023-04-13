@@ -6,7 +6,6 @@ Created on Mon Apr  3 22:18:19 2023
 @author: formando
 """
 
-from tkinter import filedialog
 import sqlite3
 
 
@@ -34,22 +33,31 @@ def menu(client_order):
             str = "Escolheu o numero 1"
             return str
         elif escolha == "2":
-            listar_disciplinas()
+            #listar_disciplinas()
+            pass
         elif escolha == "3":
-            eliminar_disciplina()
+            #eliminar_disciplina()
+            pass
         elif escolha == "4":
-            criar_aluno()
+            #criar_aluno()
+            pass
         elif escolha == "5":
-            inscrever_aluno()
+            #inscrever_aluno()
+            pass
         elif escolha == "6":
-            delete_aluno()
+            #delete_aluno()
+            pass
         elif escolha == "7":
-            listar_aluno()
+            #listar_aluno()
+            pass
         elif escolha == "8":
-            listar_aluno_disc()
+            #listar_aluno_disc()
+            pass
         elif escolha == "9":
-            criar_professor()
+            #criar_professor()
+            pass
         elif escolha == "10":
-            assign_professor()
+            #assign_professor()
+            pass
         
         pass

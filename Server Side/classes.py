@@ -24,10 +24,23 @@ class Aluno:
         
     pass
         
-class Prof(Aluno):
+class Prof:
     
-    
+    def __init__(self, nome: str, idade: int, morada: str, cat: str, anos_exp: int):
+        self.nome = nome
+        self.idade = idade
+        self.morada = morada
+        self.categoria_pro = cat
+        self.anos_exp = anos_exp
+        self.disciplina = list()
+        
 
     pass        
         
-        
+class Disciplina:
+
+    def __init__(self, nome: str):
+        self.nome = nome
+
+
+    pass        
