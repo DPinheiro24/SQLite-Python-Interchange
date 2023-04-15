@@ -1,4 +1,5 @@
 import socket
+import pickle
 
 HOST = "192.168.1.31"  
 PORT = 65432  
@@ -23,35 +24,41 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         
         escolha = input("Insira a opçao que deseja -> ")
         
-        if escolha == "1":
-            s.sendall(escolha.encode())
-        elif escolha == "2":
-            s.sendall(escolha.encode())
-        elif escolha == "3":
-            s.sendall(escolha.encode())
-        elif escolha == "4":
-            s.sendall(escolha.encode())
-        elif escolha == "5":
-            s.sendall(escolha.encode())
-        elif escolha == "6":
-            s.sendall(escolha.encode())
-        elif escolha == "7":
-            s.sendall(escolha.encode())
-        elif escolha == "8":
-            s.sendall(escolha.encode())
-        elif escolha == "9":
-            s.sendall(escolha.encode())
-        elif escolha == "10":
-            s.sendall(escolha.encode())
-        elif escolha == "0":
-            s.sendall(escolha.encode())
-            data = s.recv(1024)
-            print(f"Received '{data.decode()}'")
-            s.close()
-            break
-        else:
-            s.sendall(escolha.encode())
+        s.sendall(escolha.encode())
         
-        data = s.recv(1024)
-        print(f"Received '{data.decode()}'")
+        if "0" in escolha:
+            quit()
+        
+        if escolha == "1":
+            disciplina_nome = input("Nome da Disciplina -> ")
+            s.sendall(disciplina_nome.encode())
+            data = s.recv(1024)
+            print(f"Server -> '{data.decode()}'")
+
+        if escolha == "2":
+            lista_disciplinas = []
+            while True:
+                data = s.recv(1024)
+                data = data.decode()
+                if data == "Todas as disciplinas exibidas!":
+                    break
+                lista_disciplinas.append(data)
+                str = "Client -> Received!\n"
+                s.sendall(str.encode())
+            for i in lista_disciplinas:
+                print(f"{i}")
+
+        if escolha == "3":
+            id_disciplina_a_apagar = input("Insira o ID da disciplina (0 para cancelar) ->")
+            if id_disciplina_a_apagar == "0":
+                break
+            s.sendall(id_disciplina_a_apagar.encode())
+            data = s.recv(1024)
+            print(f"Server -> '{data.decode()}'")
+        
+        if escolha == "4":
+            nome_aluno = input("Nome do Aluno -> ")
+            s.sendall(nome_aluno.encode())
+
+        
     pass
