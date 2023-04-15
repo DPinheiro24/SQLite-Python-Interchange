@@ -6,10 +6,8 @@ Created on Mon Apr  3 21:28:24 2023
 """
 
 import socket
-import sqlite3
 import functions as f
 from sys import exit
-import pickle
 
 HOST = "192.168.1.31"  
 PORT = 65432  
@@ -46,32 +44,118 @@ def menu(client_order, conn):
         elif escolha == "2":
             resultado = f.listar_disciplina_db()
             for i in resultado:
+                lever = "Empty"
                 string = f" ID: {i[0]} | Disciplina: {i[1]}"
                 conn.sendall(string.encode())
+                while lever == "Empty":
+                    data = conn.recv(1024)
+                    reply = data.decode()
+                    lever = reply
             print("Lista percorrida!")
             str = "Todas as disciplinas exibidas!"
             conn.sendall(str.encode())
             pass
         elif escolha == "3":
+            resultado = f.listar_disciplina_db()
+            for i in resultado:
+                lever = "Empty"
+                string = f" ID: {i[0]} | Disciplina: {i[1]}"
+                conn.sendall(string.encode())
+                while lever == "Empty":
+                    data = conn.recv(1024)
+                    reply = data.decode()
+                    lever = reply
+            print("Lista percorrida!")
+            str = "Todas as disciplinas exibidas!"
+            conn.sendall(str.encode())
             data = conn.recv(1024)
             reply = data.decode()
             print(f"ID da Disciplina por eliminar: {reply}")
             if not reply.isdigit():
-                    str = "Insira um numero sff" 
+                    str = "Insira um numero sff"
+                    conn.sendall(str.encode())
                     return
-            f.eliminar_disciplina_bd(reply)
+            resultado = f.eliminar_disciplina_bd(reply)
+            conn.sendall(resultado.encode())
             pass
         elif escolha == "4":
-            #criar_aluno()
+            
+            data = conn.recv(1024)
+            data = data.decode()
+            nome = data
+        
+            data = conn.recv(1024)
+            data = data.decode()
+            idade = data
+        
+            data = conn.recv(1024)
+            data = data.decode()
+            aluno_id = data
+        
+            data = conn.recv(1024)
+            data = data.decode()
+            morada = data
+                
+            resultado = f.criar_aluno_db(aluno_id, nome, idade, morada)
+            for i in resultado:
+                string = f"Aluno ID: {i[0]} | Nome: {i[1]}"
+                conn.sendall(string.encode())
+            print("Lista percorrida!")
             pass
         elif escolha == "5":
-            #inscrever_aluno()
+            resultado = f.listar_disciplina_db()
+            for i in resultado:
+                lever = "Empty"
+                string = f" ID: {i[0]} | Disciplina: {i[1]}"
+                conn.sendall(string.encode())
+                while lever == "Empty":
+                    data = conn.recv(1024)
+                    reply = data.decode()
+                    lever = reply
+            print("Lista percorrida!")
+            str = "Todas as disciplinas exibidas!"
+            conn.sendall(str.encode())
+            data = conn.recv(1024)
+            id_disciplina = data.decode()
+            print(f"ID da Disciplina: {id_disciplina}")
+            if not reply.isdigit():
+                    str = "Insira um numero sff"
+                    conn.sendall(str.encode())
+                    return
+            resultado = f.listar_aluno_db()
+            for i in resultado:
+                lever = "Empty"
+                string = f" ID: {i[0]} | Nome: {i[1]}"
+                conn.sendall(string.encode())
+                while lever == "Empty":
+                    data = conn.recv(1024)
+                    reply = data.decode()
+                    lever = reply
+            print("Lista percorrida!")
+            str = "Todas os Alunos exibidos!"
+            conn.sendall(str.encode())
+            data = conn.recv(1024)
+            aluno_id = data.decode()
+            print(f"ID do Aluno: {aluno_id}")
+            resultado = f.insere_disciplina_aluno(aluno_id, id_disciplina)
+            conn.sendall(resultado.encode())
             pass
         elif escolha == "6":
             #delete_aluno()
             pass
         elif escolha == "7":
-            #listar_aluno()
+            resultado = f.listar_aluno_db()
+            for i in resultado:
+                lever = "Empty"
+                string = f" ID: {i[0]} | Nome: {i[1]}"
+                conn.sendall(string.encode())
+                while lever == "Empty":
+                    data = conn.recv(1024)
+                    reply = data.decode()
+                    lever = reply
+            print("Lista percorrida!")
+            str = "Todas os Alunos exibidos!"
+            conn.sendall(str.encode())
             pass
         elif escolha == "8":
             #listar_aluno_disc()
@@ -102,4 +186,4 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 if client_order == "290803":
                     exit()
                 menu(client_order, conn)
-    
+    pass
