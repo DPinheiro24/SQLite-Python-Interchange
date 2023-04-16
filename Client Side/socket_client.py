@@ -1,13 +1,13 @@
 import socket
 import pickle
 
-HOST = "192.168.1.31"  
-PORT = 65432  
+HOST = "192.168.1.31"
+PORT = 65432
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST, PORT))
     while True:
-    
+
         print("******** MENU ********")
         print("1 - Criar Disciplina")
         print("2 - Listar Disciplinas")
@@ -21,11 +21,11 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         print("10 - Adicionar professor a uma disciplina")
         print("0 - Sair")
         print("***********************")
-        
+
         escolha = input("Insira a opçao que deseja -> ")
-        
+
         s.sendall(escolha.encode())
-        
+
         if escolha == "1":
             disciplina_nome = input("Nome da Disciplina -> ")
             s.sendall(disciplina_nome.encode())
@@ -43,7 +43,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 lista_disciplinas.append(data)
                 str = "Client -> Received!\n"
                 s.sendall(str.encode())
-            
+
             for i in lista_disciplinas:
                 print(f"{i}")
             pass
@@ -58,11 +58,12 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 lista_disciplinas.append(data)
                 str = "Client -> Received!\n"
                 s.sendall(str.encode())
-            
+
             for i in lista_disciplinas:
                 print(f"{i}")
-            
-            id_disciplina_a_apagar = input("Insira o ID da disciplina (0 para cancelar) ->")
+
+            id_disciplina_a_apagar = input(
+                "Insira o ID da disciplina (0 para cancelar) ->")
             if id_disciplina_a_apagar == "0":
                 pass
             else:
@@ -70,7 +71,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 data = s.recv(1024)
                 print(f"Server -> '{data.decode()}'")
             pass
-        
+
         if escolha == "4":
             nome_aluno = input("Nome do Aluno -> ")
             s.sendall(nome_aluno.encode())
@@ -94,10 +95,11 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 lista_disciplinas.append(data)
                 str = "Client -> Received!\n"
                 s.sendall(str.encode())
-            
+
             for i in lista_disciplinas:
                 print(f"{i}")
-            id_disciplina = input("Insira o ID da disciplina que deseja associar a um aluno (0 para cancelar) ->")
+            id_disciplina = input(
+                "Insira o ID da disciplina que deseja associar a um aluno (0 para cancelar) ->")
             if id_disciplina == "0":
                 pass
             else:
@@ -112,11 +114,12 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 lista_alunos.append(data)
                 str = "Client -> Received!\n"
                 s.sendall(str.encode())
-            
+
             for i in lista_alunos:
                 print(f"{i}")
 
-            id_aluno = input("Insira o ID do aluno que deseja associar a uma disciplina (0 para cancelar) ->")
+            id_aluno = input(
+                "Insira o ID do aluno que deseja associar a uma disciplina (0 para cancelar) ->")
             if id_aluno == "0":
                 pass
             else:
@@ -137,11 +140,12 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 lista_alunos.append(data)
                 str = "Client -> Received!\n"
                 s.sendall(str.encode())
-            
+
             for i in lista_alunos:
                 print(f"{i}")
 
-            id_aluno = input("Insira o ID do aluno que deseja eliminar (0 para cancelar) ->")
+            id_aluno = input(
+                "Insira o ID do aluno que deseja eliminar (0 para cancelar) ->")
             if id_aluno == "0":
                 pass
             else:
@@ -162,13 +166,13 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 lista_alunos.append(data)
                 str = "Client -> Received!\n"
                 s.sendall(str.encode())
-            
+
             for i in lista_alunos:
                 print(f"{i}")
-            
+
             pass
             pass
-        
+
         if escolha == "8":
             lista_disciplinas = []
             while True:
@@ -179,10 +183,11 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 lista_disciplinas.append(data)
                 str = "Client -> Received!\n"
                 s.sendall(str.encode())
-            
+
             for i in lista_disciplinas:
                 print(f"{i}")
-            id_disciplina = input("Insira o ID da disciplina que deseja ver os alunos associados (0 para cancelar) ->")
+            id_disciplina = input(
+                "Insira o ID da disciplina que deseja ver os alunos associados (0 para cancelar) ->")
             if id_disciplina == "0":
                 pass
             else:
@@ -197,7 +202,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 lista_alunos.append(data)
                 str = "Client -> Received!\n"
                 s.sendall(str.encode())
-            
+
             for i in lista_alunos:
                 print(f"{i}")
             pass
@@ -216,7 +221,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             data = s.recv(1024)
             print(f"{data.decode()}")
             pass
-        
+
         if escolha == "10":
             lista_disciplinas = []
             while True:
@@ -227,15 +232,16 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 lista_disciplinas.append(data)
                 str = "Client -> Received!\n"
                 s.sendall(str.encode())
-            
+
             for i in lista_disciplinas:
                 print(f"{i}")
-            id_disciplina = input("Insira o ID da disciplina que deseja associar a um prof (0 para cancelar) ->")
+            id_disciplina = input(
+                "Insira o ID da disciplina que deseja associar a um prof (0 para cancelar) ->")
             if id_disciplina == "0":
                 pass
             else:
                 s.send(id_disciplina.encode())
-            
+
             lista_profs = []
             while True:
                 data = s.recv(1024)
@@ -245,10 +251,11 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 lista_profs.append(data)
                 str = "Client -> Received!\n"
                 s.sendall(str.encode())
-            
+
             for i in lista_profs:
                 print(f"{i}")
-            id_prof = input("Insira o ID do professor que quer associar(0 para cancelar) ->")
+            id_prof = input(
+                "Insira o ID do professor que quer associar(0 para cancelar) ->")
             if id_prof == "0":
                 pass
             else:
@@ -258,4 +265,4 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             print(f"Sever -> {data}")
             pass
         elif "0" in escolha:
-                quit()
+            quit()
