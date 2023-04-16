@@ -26,14 +26,12 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         
         s.sendall(escolha.encode())
         
-        if "0" in escolha:
-            quit()
-        
         if escolha == "1":
             disciplina_nome = input("Nome da Disciplina -> ")
             s.sendall(disciplina_nome.encode())
             data = s.recv(1024)
             print(f"Server -> '{data.decode()}'")
+            pass
 
         if escolha == "2":
             lista_disciplinas = []
@@ -48,6 +46,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             
             for i in lista_disciplinas:
                 print(f"{i}")
+            pass
 
         if escolha == "3":
             lista_disciplinas = []
@@ -70,6 +69,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 s.sendall(id_disciplina_a_apagar.encode())
                 data = s.recv(1024)
                 print(f"Server -> '{data.decode()}'")
+            pass
         
         if escolha == "4":
             nome_aluno = input("Nome do Aluno -> ")
@@ -82,6 +82,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.sendall(morada.encode())
             data = s.recv(1024)
             print(f"{data.decode()}")
+            pass
 
         if escolha == "5":
             lista_disciplinas = []
@@ -101,7 +102,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 pass
             else:
                 s.send(id_disciplina.encode())
-            
 
             lista_alunos = []
             while True:
@@ -167,7 +167,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 print(f"{i}")
             
             pass
-        pass
+            pass
         
         if escolha == "8":
             lista_disciplinas = []
@@ -200,3 +200,62 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             
             for i in lista_alunos:
                 print(f"{i}")
+            pass
+
+        if escolha == "9":
+            nome_prof = input("Nome do Professor -> ")
+            s.sendall(nome_prof.encode())
+            idade_prof = input("Idade do Professor -> ")
+            s.sendall(idade_prof.encode())
+            prof_id = input("ID do Professor -> ")
+            s.sendall(prof_id.encode())
+            cat_prof = input("Categoria Profissional do Professor -> ")
+            s.sendall(cat_prof.encode())
+            morada = input("Morada Do Professor -> ")
+            s.sendall(morada.encode())
+            data = s.recv(1024)
+            print(f"{data.decode()}")
+            pass
+        
+        if escolha == "10":
+            lista_disciplinas = []
+            while True:
+                data = s.recv(1024)
+                data = data.decode()
+                if data == "Todas as disciplinas exibidas!":
+                    break
+                lista_disciplinas.append(data)
+                str = "Client -> Received!\n"
+                s.sendall(str.encode())
+            
+            for i in lista_disciplinas:
+                print(f"{i}")
+            id_disciplina = input("Insira o ID da disciplina que deseja associar a um prof (0 para cancelar) ->")
+            if id_disciplina == "0":
+                pass
+            else:
+                s.send(id_disciplina.encode())
+            
+            lista_profs = []
+            while True:
+                data = s.recv(1024)
+                data = data.decode()
+                if data == "Todas os professores exibidos!":
+                    break
+                lista_profs.append(data)
+                str = "Client -> Received!\n"
+                s.sendall(str.encode())
+            
+            for i in lista_profs:
+                print(f"{i}")
+            id_prof = input("Insira o ID do professor que quer associar(0 para cancelar) ->")
+            if id_prof == "0":
+                pass
+            else:
+                s.send(id_prof.encode())
+            data = s.recv(1024)
+            data = data.decode()
+            print(f"Sever -> {data}")
+            pass
+        elif "0" in escolha:
+                quit()
