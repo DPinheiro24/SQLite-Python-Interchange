@@ -226,7 +226,45 @@ def eliminar_disciplina_bd(disciplina_id):
         print("Houve um erro em 3, o ID nao existe")
         str = "Houve um erro, o ID nao existe"
         return str
-
+    
+    
+def eliminar_aluno_bd(aluno_id):
+    
+    global db_conn
+    nomebd = "miniprojeto.db"
+    db_conn = sqlite3.connect(nomebd)
+    
+    
+    try:
+        sql = """
+        DELETE FROM disciplina_aluno
+        WHERE aluno_id = (?)
+        """ 
+        c = db_conn.cursor()
+        c.execute(sql, (aluno_id, ))
+        db_conn.commit()
+        
+    except:
+        print("Houve um erro em 1, o ID nao existe")
+    
+    try:
+        sql = """
+        DELETE FROM aluno
+        WHERE aluno_id = (?)
+        """ 
+        c = db_conn.cursor()
+        c.execute(sql, (aluno_id, ))
+        db_conn.commit()
+        db_conn.close()
+        print(f"ID {aluno_id} foi apagado com sucesso!")
+        str = f"ID {aluno_id} foi apagado com sucesso!"
+        return str
+        
+    except:
+        print("Houve um erro em 2, o ID nao existe")
+        str = "Houve um erro, o ID nao existe"
+        return str
+    
 
 def insere_disciplina_aluno(aluno_id, disciplina_id):
     

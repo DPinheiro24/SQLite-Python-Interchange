@@ -112,16 +112,13 @@ def menu(client_order, conn):
                     data = conn.recv(1024)
                     reply = data.decode()
                     lever = reply
+                    print(f"{string} | {lever}")
             print("Lista percorrida!")
             str = "Todas as disciplinas exibidas!"
             conn.sendall(str.encode())
             data = conn.recv(1024)
             id_disciplina = data.decode()
             print(f"ID da Disciplina: {id_disciplina}")
-            if not reply.isdigit():
-                    str = "Insira um numero sff"
-                    conn.sendall(str.encode())
-                    return
             resultado = f.listar_aluno_db()
             for i in resultado:
                 lever = "Empty"
@@ -131,6 +128,7 @@ def menu(client_order, conn):
                     data = conn.recv(1024)
                     reply = data.decode()
                     lever = reply
+                    print(f"{string} | {lever}")
             print("Lista percorrida!")
             str = "Todas os Alunos exibidos!"
             conn.sendall(str.encode())
@@ -141,7 +139,24 @@ def menu(client_order, conn):
             conn.sendall(resultado.encode())
             pass
         elif escolha == "6":
-            #delete_aluno()
+            resultado = f.listar_aluno_db()
+            for i in resultado:
+                lever = "Empty"
+                string = f" ID: {i[0]} | Nome: {i[1]}"
+                conn.sendall(string.encode())
+                while lever == "Empty":
+                    data = conn.recv(1024)
+                    reply = data.decode()
+                    lever = reply
+                    print(f"{string} | {lever}")
+            print("Lista percorrida!")
+            str = "Todas os Alunos exibidos!"
+            conn.sendall(str.encode())
+            data = conn.recv(1024)
+            reply = data.decode()
+            print(f"ID do Aluno por eliminar: {reply}")
+            resultado = f.eliminar_disciplina_bd(reply)
+            conn.sendall(resultado.encode())
             pass
         elif escolha == "7":
             resultado = f.listar_aluno_db()
@@ -174,16 +189,19 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.bind((HOST, PORT))
     s.listen()
     while True:
-        conn, addr = s.accept()
-        with conn:
-            print(f"Connected by {addr}")
-            while True:
-                data = conn.recv(1024)
-                client_order = data.decode()
-                print(f"{client_order}")
-                if client_order == "0":
-                    break
-                if client_order == "290803":
-                    exit()
-                menu(client_order, conn)
+        try:
+            conn, addr = s.accept()
+            with conn:
+                print(f"Connected by {addr}")
+                while True:
+                    data = conn.recv(1024)
+                    client_order = data.decode()
+                    print(f"{client_order}")
+                    if client_order == "0":
+                        break
+                    if client_order == "290803":
+                        exit()
+                    menu(client_order, conn)
+        except ConnectionResetError:
+            print("Conexao Terminada...")
     pass

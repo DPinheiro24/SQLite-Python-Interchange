@@ -100,7 +100,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             if id_disciplina == "0":
                 pass
             else:
-                s.sendall(id_disciplina.encode())
+                s.send(id_disciplina.encode())
             
 
             lista_alunos = []
@@ -120,10 +120,36 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             if id_aluno == "0":
                 pass
             else:
-                s.sendall(id_aluno.encode())
+                s.send(id_aluno.encode())
             data = s.recv(1024)
             data = data.decode()
             print(f"{data}")
+            pass
+
+        if escolha == "6":
+
+            lista_alunos = []
+            while True:
+                data = s.recv(1024)
+                data = data.decode()
+                if data == "Todas os Alunos exibidos!":
+                    break
+                lista_alunos.append(data)
+                str = "Client -> Received!\n"
+                s.sendall(str.encode())
+            
+            for i in lista_alunos:
+                print(f"{i}")
+
+            id_aluno = input("Insira o ID do aluno que deseja eliminar (0 para cancelar) ->")
+            if id_aluno == "0":
+                pass
+            else:
+                s.send(id_aluno.encode())
+            data = s.recv(1024)
+            data = data.decode()
+            print(f"{data}")
+
             pass
 
         if escolha == "7":
