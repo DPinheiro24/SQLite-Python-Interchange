@@ -97,10 +97,13 @@ def menu(client_order, conn):
             morada = data
                 
             resultado = f.criar_aluno_db(aluno_id, nome, idade, morada)
-            for i in resultado:
-                string = f"Aluno ID: {i[0]} | Nome: {i[1]}"
-                conn.sendall(string.encode())
-            print("Lista percorrida!")
+            if resultado == "Ja existe uma disciplina com esse nome":
+                conn.send(resultado.encode())
+            else:
+                for i in resultado:
+                    string = f"Aluno ID: {i[0]} | Nome: {i[1]}"
+                    conn.sendall(string.encode())
+                print("Lista percorrida!")
             pass
         elif escolha == "5":
             resultado = f.listar_disciplina_db()
@@ -155,7 +158,7 @@ def menu(client_order, conn):
             data = conn.recv(1024)
             reply = data.decode()
             print(f"ID do Aluno por eliminar: {reply}")
-            resultado = f.eliminar_disciplina_bd(reply)
+            resultado = f.eliminar_aluno_bd(reply)
             conn.sendall(resultado.encode())
             pass
         elif escolha == "7":
@@ -173,7 +176,32 @@ def menu(client_order, conn):
             conn.sendall(str.encode())
             pass
         elif escolha == "8":
-            #listar_aluno_disc()
+            resultado = f.listar_disciplina_db()
+            for i in resultado:
+                lever = "Empty"
+                string = f" ID: {i[0]} | Disciplina: {i[1]}"
+                conn.sendall(string.encode())
+                while lever == "Empty":
+                    data = conn.recv(1024)
+                    reply = data.decode()
+                    lever = reply
+            print("Lista percorrida!")
+            str = "Todas as disciplinas exibidas!"
+            conn.sendall(str.encode())
+            data = conn.recv(1024)
+            disciplina_id = data.decode()
+            resultado = f.listar_aluno_inscrito_db(disciplina_id)
+            for i in resultado:
+                lever = "Empty"
+                string = f" ID: {i[0]} | Nome: {i[1]}"
+                conn.sendall(string.encode())
+                while lever == "Empty":
+                    data = conn.recv(1024)
+                    reply = data.decode()
+                    lever = reply
+            print("Lista percorrida!")
+            str = "Todas os Alunos exibidos!"
+            conn.sendall(str.encode())
             pass
         elif escolha == "9":
             #criar_professor()

@@ -168,3 +168,35 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             
             pass
         pass
+        
+        if escolha == "8":
+            lista_disciplinas = []
+            while True:
+                data = s.recv(1024)
+                data = data.decode()
+                if data == "Todas as disciplinas exibidas!":
+                    break
+                lista_disciplinas.append(data)
+                str = "Client -> Received!\n"
+                s.sendall(str.encode())
+            
+            for i in lista_disciplinas:
+                print(f"{i}")
+            id_disciplina = input("Insira o ID da disciplina que deseja ver os alunos associados (0 para cancelar) ->")
+            if id_disciplina == "0":
+                pass
+            else:
+                s.send(id_disciplina.encode())
+
+            lista_alunos = []
+            while True:
+                data = s.recv(1024)
+                data = data.decode()
+                if data == "Todas os Alunos exibidos!":
+                    break
+                lista_alunos.append(data)
+                str = "Client -> Received!\n"
+                s.sendall(str.encode())
+            
+            for i in lista_alunos:
+                print(f"{i}")
